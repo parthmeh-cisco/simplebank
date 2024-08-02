@@ -6,18 +6,12 @@ import (
 	"os"
 	"testing"
 
-	_ "github.com/go-sql-driver/mysql"
-	// _ "github.com/lib/pq"
+	_ "github.com/lib/pq"
 )
 
-// const (
-// 	dbDriver = "postgres"
-// 	dbSource = "postgresql://root:secret@localhost:5432/simple_bank?sslmode=disable"
-// )
-
 const (
-	dbDriver = "mysql"
-	dbSource = "root:secret@tcp(localhost:3306)/simple_bank"
+	dbDriver = "postgres"
+	dbSource = "postgresql://root:secret@localhost:5432/simple_bank?sslmode=disable"
 )
 
 var testQueries *Queries
