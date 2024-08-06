@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/aead/chacha20poly1305"
 	"github.com/o1egl/paseto"
+	"golang.org/x/crypto/chacha20poly1305"
 )
 
 // PasetoMaker is a PASETO token maker
@@ -24,7 +24,6 @@ func NewPasetoMaker(symmetricKey string) (Maker, error) {
 		paseto:       paseto.NewV2(),
 		symmetricKey: []byte(symmetricKey),
 	}
-
 	return maker, nil
 }
 
