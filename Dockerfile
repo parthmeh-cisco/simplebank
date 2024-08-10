@@ -12,11 +12,10 @@ FROM alpine:latest
 WORKDIR /app
 COPY --from=builder /app/main .
 COPY --from=builder /app/migrate .
-# Copy configuration files and scripts
-COPY app.env /app/app.env
-COPY start.sh /app/start.sh
-COPY wait-for.sh /app/wait-for.sh
-COPY db/migration /app/migration
+COPY app.env .
+COPY start.sh .
+COPY wait-for.sh .
+COPY db/migration ./migration
 
 # Ensure the binary has execute permissions
 RUN chmod +x /app/main /app/migrate /app/start.sh /app/wait-for.sh
