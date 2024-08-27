@@ -21,5 +21,5 @@ COPY db/migration ./migration
 RUN chmod +x /app/main /app/migrate /app/start.sh /app/wait-for.sh
 
 EXPOSE 8080
-CMD [ "/app/main" ]
 ENTRYPOINT [ "/app/start.sh" ]
+CMD [ "/app/main" ]

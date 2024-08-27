@@ -4,7 +4,9 @@ set -e
 
 echo "Sourcing environment variables..."
 if [ -f /app/app.env ]; then
-    source /app/app.env
+    set -a
+    . /app/app.env
+    set +a
     echo "DB_SOURCE after sourcing: $DB_SOURCE"
 else
     echo "app.env file not found!"
