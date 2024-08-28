@@ -13,7 +13,6 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/golang/mock/gomock"
-	"github.com/lib/pq"
 	mockdb "github.com/parthmeh-cisco/simplebank/db/mock"
 	db "github.com/parthmeh-cisco/simplebank/db/sqlc"
 	"github.com/parthmeh-cisco/simplebank/util"
@@ -44,7 +43,7 @@ func (e eqCreateUserParamsMatcher) String() string {
 	return fmt.Sprintf("matches arg %v and password %v", e.arg, e.password)
 }
 
-func eqCreateUserParams(arg db.CreateUserParams, password string) gomock.Matcher {
+func EqCreateUserParams(arg db.CreateUserParams, password string) gomock.Matcher {
 	return eqCreateUserParamsMatcher{arg, password}
 }
 
@@ -72,7 +71,7 @@ func TestCreateUserAPI(t *testing.T) {
 					Email:    user.Email,
 				}
 				store.EXPECT().
-					CreateUser(gomock.Any(), eqCreateUserParams(arg, password)).
+					CreateUser(gomock.Any(), EqCreateUserParams(arg, password)).
 					Times(1).
 					Return(user, nil)
 			},
@@ -111,7 +110,7 @@ func TestCreateUserAPI(t *testing.T) {
 				store.EXPECT().
 					CreateUser(gomock.Any(), gomock.Any()).
 					Times(1).
-					Return(db.User{}, &pq.Error{Code: "23505"})
+					Return(db.User{}, db.ErrUniqueViolation)
 			},
 			checkResponse: func(recorder *httptest.ResponseRecorder) {
 				require.Equal(t, http.StatusForbidden, recorder.Code)
@@ -180,9 +179,7 @@ func TestCreateUserAPI(t *testing.T) {
 			store := mockdb.NewMockStore(ctrl)
 			tc.buildStubs(store)
 
-			config := util.Config{} // Replace with your actual config
-			server, err := NewServer(config, store)
-			require.NoError(t, err)
+			server := newTestServer(t, store)
 			recorder := httptest.NewRecorder()
 
 			// Marshal body data to JSON
