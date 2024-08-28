@@ -11,7 +11,7 @@ import (
 	"github.com/parthmeh-cisco/simplebank/util"
 )
 
-// Server serves HTTP requests for our banking service
+// Server serves HTTP requests for our banking service.
 type Server struct {
 	config     util.Config
 	store      db.Store
@@ -19,7 +19,7 @@ type Server struct {
 	router     *gin.Engine
 }
 
-// NewServer creates a new HTTP server and set up routing
+// NewServer creates a new HTTP server and set up routing.
 func NewServer(config util.Config, store db.Store) (*Server, error) {
 	tokenMaker, err := token.NewPasetoMaker(config.TokenSymmetricKey)
 	if err != nil {
@@ -45,9 +45,9 @@ func (server *Server) setupRouter() {
 
 	router.POST("/users", server.createUser)
 	router.POST("/users/login", server.loginUser)
+	router.POST("/tokens/renew_access", server.renewAccessToken)
 
 	authRoutes := router.Group("/").Use(authMiddleware(server.tokenMaker))
-
 	authRoutes.POST("/accounts", server.createAccount)
 	authRoutes.GET("/accounts/:id", server.getAccount)
 	authRoutes.GET("/accounts", server.listAccounts)
