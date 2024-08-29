@@ -12,9 +12,9 @@ FROM alpine:latest
 WORKDIR /app
 COPY --from=builder /app/main .
 COPY --from=builder /app/migrate ./migrate
-COPY app.env /app/
-COPY start.sh /app/
-COPY wait-for.sh /app/
+COPY app.env .
+COPY start.sh .
+COPY wait-for.sh .
 COPY db/migration ./db/migration
 
 # Ensure the binary has execute permissions
