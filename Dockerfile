@@ -14,7 +14,7 @@ COPY --from=builder /app/main .
 COPY --from=builder /app/migrate ./migrate
 COPY /app/app.env /app/
 COPY /app/start.sh /app/
-COPY /app/wait-for.sh .
+COPY wait-for.sh /app/
 COPY db/migration ./db/migration
 
 # Ensure the binary has execute permissions
