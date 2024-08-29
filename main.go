@@ -2,7 +2,9 @@ package main
 
 import (
 	"database/sql"
+	"fmt"
 	"log"
+	"os"
 
 	_ "github.com/lib/pq"
 	"github.com/parthmeh-cisco/simplebank/api"
@@ -16,7 +18,9 @@ func main() {
 		log.Fatal("cannot load config:", err)
 	}
 
-	log.Printf("DBDriver: %s, DBSource: %s", config.DBDriver, config.DBSource)
+	dbDriver := os.Getenv("DB_DRIVER")
+	dbSource := os.Getenv("DB_SOURCE")
+	fmt.Printf("DBDriver: %s, DBSource: %s\n", dbDriver, dbSource)
 
 	conn, err := sql.Open(config.DBDriver, config.DBSource)
 	if err != nil {
