@@ -16,7 +16,7 @@ jobs:
     - name: Install kubectl
       uses: azure/setup-kubectl@v4
       with:
-       version: '1.31.0'
+       version: '4.0.0'
       id: install
 
     - name: Configure AWS credentials (techparthagithub)
@@ -47,6 +47,9 @@ jobs:
       run: |
         docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG -t latest .
         docker push -a $ECR_REGISTRY/$ECR_REPOSITORY
+
+    - name: Update kube config
+      run: aws eks update-kubeconfig --name simple-bank --region us-east-2
 
     - name: Deploy image to Amazon EKS
       run: |
