@@ -49,12 +49,12 @@ jobs:
         docker push -a $ECR_REGISTRY/$ECR_REPOSITORY
 
     - name: Update kube config
-      run: aws eks update-kubeconfig --name simple-bank --region us-east-2
+      run: aws eks update-kubeconfig --name simple-bank-eks --region us-east-2
 
     - name: Deploy image to Amazon EKS
       run: |
         kubectl apply -f eks/aws-auth.yml
-        kubectl apply -f eks/deployment.yml
+        kubectl rollout restart -f eks/deployment.yml
         kubectl apply -f eks/service.yml
         kubectl apply -f eks/issuer.yml
         kubectl apply -f eks/ingress.yml

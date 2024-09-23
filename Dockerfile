@@ -16,6 +16,6 @@ COPY db/migration ./db/migration
 # Ensure the binary has execute permissions
 RUN chmod +x /app/main /app/start.sh /app/wait-for.sh
 
-EXPOSE 8080
+EXPOSE 8080 9090
 CMD [ "/app/main" ]
 ENTRYPOINT [ "/app/start.sh" ]
