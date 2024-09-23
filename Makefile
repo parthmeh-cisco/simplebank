@@ -17,6 +17,8 @@ migratedown:
 	migrate -path db/migration -database "${DB_URL}" -verbose down
 migratedown1:
 	migrate -path db/migration -database "${DB_URL}" -verbose down 1
+new_migration:
+	migrate create -ext sql -dir db/migration -seq $(name)
 db_docs:
 	dbdocs build doc/db.dbml
 db_schema:
@@ -24,11 +26,12 @@ db_schema:
 sqlc:
 	sqlc generate
 test:
-	go test -v -cover ./...
+	go test -v -cover -short ./...
 server:
 	go run main.go
 mock:
 	mockgen -package mockdb -destination db/mock/store.go github.com/parthmeh-cisco/simplebank/db/sqlc Store
+	mockgen -package mockwk -destination worker/mock/distributor.go github.com/parthmeh-cisco/simplebank/worker TaskDistributor
 proto:
 	rm -f pb/*.go
 	rm -f doc/swagger/*.swagger.json
@@ -40,4 +43,6 @@ proto:
 	statik -src=./doc/swagger -dest=./doc
 evans:
 	evans --path proto --proto rpc_create_user.proto,service_simple_bank.proto,rpc_login_user.proto,user.proto --host localhost --port 9090
-.PHONY: postgres createdb dropdb migrateup migratedown migrateup1 migratedown1 db_docs db_schema sqlc test server mock proto evans
+redis:
+	docker run --name redis -p 6379:6379 -d redis:latest
+.PHONY: postgres createdb dropdb migrateup migratedown migrateup1 migratedown1 new_migration db_docs db_schema sqlc test server mock proto evans redis
