@@ -9,7 +9,7 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-  - host: "gapi.simple-bank.co"
+  - host: "gapi.simplebanktest.co"
     http:
       paths:
       - pathType: Prefix
@@ -21,5 +21,5 @@ spec:
               number: 90
   tls:
   - hosts:
-    - gapi.simple-bank.co
+    - gapi.simplebanktest.com
     secretName: simple-bank-gapi-cert
