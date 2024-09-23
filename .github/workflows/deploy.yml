@@ -51,9 +51,14 @@ jobs:
     - name: Update kube config
       run: aws eks update-kubeconfig --name simple-bank-eks --region us-east-2
 
+    - name: Verify kubeconfig context
+      run: |
+        kubectl config use-context arn:aws:eks:us-east-2:686255986201:cluster/simple-bank-eks
+        kubectl cluster-info
+
     - name: Deploy image to Amazon EKS
       run: |
-        kubectl apply -f eks/aws-auth.yml --validate=false
+        kubectl apply -f eks/aws-auth.yml
         kubectl apply -f eks/deployment.yml
         kubectl apply -f eks/service.yml
         kubectl apply -f eks/issuer.yml
