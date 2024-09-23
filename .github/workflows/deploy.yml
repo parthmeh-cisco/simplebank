@@ -53,7 +53,7 @@ jobs:
 
     - name: Deploy image to Amazon EKS
       run: |
-        kubectl apply -f eks/aws-auth.yml
+        kubectl apply -f eks/aws-auth.yml --validate=false
         kubectl apply -f eks/deployment.yml
         kubectl apply -f eks/service.yml
         kubectl apply -f eks/issuer.yml
