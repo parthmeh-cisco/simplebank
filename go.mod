@@ -26,6 +26,8 @@ require (
 	google.golang.org/protobuf v1.34.2
 )
 
+require github.com/rs/cors v1.11.1 // indirect
+
 require (
 	github.com/aead/chacha20 v0.0.0-20180709150244-8b13a72661da // indirect
 	github.com/aead/chacha20poly1305 v0.0.0-20170617001512-233f39982aeb // indirect
